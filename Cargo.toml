@@ -3,6 +3,9 @@ name = "camascii"
 version = "0.1.0"
 edition = "2024"
 description = "Webcam live stream rendered as colored ASCII art in the terminal"
+license = "MIT"
+repository = "https://github.com/jwoirhaye/camascii"
+keywords = ["webcam", "ascii", "terminal", "tui", "v4l2"]
 
 [dependencies]
 rscam = "0.5"
