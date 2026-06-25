@@ -14,9 +14,9 @@ pub fn yuyv_to_rgb(frame: &[u8], src_w: u32, x: u32, y: u32) -> (u8, u8, u8, u8)
         return (0, 0, 0, 0);
     }
     let y0 = frame[pair_idx] as f32;
-    let u  = frame[pair_idx + 1] as f32 - 128.0;
+    let u = frame[pair_idx + 1] as f32 - 128.0;
     let y1 = frame[pair_idx + 2] as f32;
-    let v  = frame[pair_idx + 3] as f32 - 128.0;
+    let v = frame[pair_idx + 3] as f32 - 128.0;
     let luma = if x & 1 == 0 { y0 } else { y1 };
 
     let r = (luma + 1.402 * v).clamp(0.0, 255.0) as u8;
@@ -28,7 +28,7 @@ pub fn yuyv_to_rgb(frame: &[u8], src_w: u32, x: u32, y: u32) -> (u8, u8, u8, u8)
 
 #[cfg(test)]
 mod tests {
-    use crate::codec::{luma_to_char, yuyv_to_rgb, ASCII_CHARS};
+    use crate::codec::{ASCII_CHARS, luma_to_char, yuyv_to_rgb};
 
     #[test]
     fn darkest_luma_is_space() {
@@ -66,8 +66,4 @@ mod tests {
         assert!(b < 20, "B={b}");
         assert_eq!(luma, 16);
     }
-
-
-
-
 }
