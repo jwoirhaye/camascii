@@ -1,0 +1,59 @@
+name: CI
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+env:
+  CARGO_TERM_COLOR: always
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install system dependencies
+        run: sudo apt-get install -y libv4l-dev
+      - name: Run tests
+        run: cargo test --verbose
+  fmt:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - name: Check format
+        run: cargo fmt --check
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - name: Install system dependencies
+        run: sudo apt-get install -y libv4l-dev
+      - name: Run clippy
+        run: cargo clippy -- -D warnings
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install system dependencies
+        run: sudo apt-get install -y libv4l-dev
+      - name: Build
+        run: cargo build --release --verbose
